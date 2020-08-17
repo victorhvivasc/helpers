@@ -7,6 +7,7 @@
 # numpy == 1.19
 
 import numpy as np
+import raises
 
 
 def sse(comparar, original):
@@ -21,14 +22,11 @@ def sse(comparar, original):
                 else:
                     return np.square(comparar - original)
             else:
-                raise ValueError('Esta función solo hace calculos para conjunto de datos, no '
-                                 'para muestras individuales')
+                raises.NoOne()
         else:
-            raise ValueError(f'Se esperaba un conjunto de datos con longitud = {len(original)}, y'
-                             f'se recibio un arreglo de longitud = {len(comparar)}')
+            raises.Longitud(comparar, original)
     else:
-        raise TypeError(f'El typo de dato de cada grupo a comparar debe ser del mismo tipo, se recibio: '
-                        f'{type(original)} y {type(comparar)}')
+        raises.Type(comparar, original)
 
 
 def mse(comparar, original) -> float:
@@ -75,14 +73,11 @@ def accuracy(comparar, original) -> float:
                 else:
                     return sum(original == comparar)/len(original)
             else:
-                raise ValueError('Esta función solo hace calculos para conjunto de datos, no '
-                                 'para muestras individuales')
+                raises.NoOne()
         else:
-            raise ValueError(f'Se esperaba un conjunto de datos con longitud = {len(original)}, y'
-                             f'se recibio un arreglo de longitud = {len(comparar)}')
+            raises.Longitud(comparar, original)
     else:
-        raise TypeError(f'El typo de dato de cada grupo a comparar debe ser del mismo tipo, se recibio: '
-                        f'{type(original)} y {type(comparar)}')
+        raises.Type(comparar, original)
 
 
 def mae(comparar, original) -> float:
@@ -97,11 +92,8 @@ def mae(comparar, original) -> float:
                 else:
                     return np.abs((comparar - original)).mean()
             else:
-                raise ValueError('Esta función solo hace calculos para conjunto de datos, no '
-                                 'para muestras individuales')
+                raises.NoOne()
         else:
-            raise ValueError(f'Se esperaba un conjunto de datos con longitud = {len(original)}, y'
-                             f'se recibio un arreglo de longitud = {len(comparar)}')
+            raises.Longitud(comparar, original)
     else:
-        raise TypeError(f'El typo de dato de cada grupo a comparar debe ser del mismo tipo, se recibio: '
-                        f'{type(original)} y {type(comparar)}')
+        raises.Type(comparar, original)
