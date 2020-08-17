@@ -7,26 +7,14 @@
 # numpy == 1.19
 
 import numpy as np
-import raises
+from herramientas import validate
 
 
 def sse(comparar, original):
     """Calcula la suma de los errores al cuadrado"""
-    if type(comparar) == type(original):
-        if len(comparar) == len(original):
-            if len(comparar) >= 2:
-                if type(comparar) == list:
-                    y_true = np.array(original)
-                    y_pred = np.array(comparar)
-                    return np.square(y_pred - y_true)
-                else:
-                    return np.square(comparar - original)
-            else:
-                raises.NoOne()
-        else:
-            raises.Longitud(comparar, original)
-    else:
-        raises.Type(comparar, original)
+    original, comparar, ok = validate.validar_datos(comparar, original)
+    if ok:
+        return np.square(comparar - original)
 
 
 def mse(comparar, original) -> float:
@@ -63,37 +51,13 @@ def accuracy(comparar, original) -> float:
     b = [5, 3]
     >
     """
-    if type(comparar) == type(original):
-        if len(comparar) == len(original):
-            if len(comparar) >= 2:
-                if type(comparar) == list:
-                    y_true = np.array(original)
-                    y_pred = np.array(comparar)
-                    return sum(y_true == y_pred)/len(y_true)
-                else:
-                    return sum(original == comparar)/len(original)
-            else:
-                raises.NoOne()
-        else:
-            raises.Longitud(comparar, original)
-    else:
-        raises.Type(comparar, original)
+    original, comparar, ok = validate.validar_datos(comparar, original)
+    if ok:
+        return sum(original == comparar) / len(original)
 
 
 def mae(comparar, original) -> float:
     """Calcula el error absoluto medio a partir de 2 conjuntos de datos que pueden ser listas o array"""
-    if type(comparar) == type(original):
-        if len(comparar) == len(original):
-            if len(comparar) >= 2:
-                if type(comparar) == list:
-                    y_true = np.array(original)
-                    y_pred = np.array(comparar)
-                    return np.abs((y_pred - y_true)).mean()
-                else:
-                    return np.abs((comparar - original)).mean()
-            else:
-                raises.NoOne()
-        else:
-            raises.Longitud(comparar, original)
-    else:
-        raises.Type(comparar, original)
+    comparar, original, ok = validate.validar_datos(comparar, original)
+    if ok:
+        return np.abs((comparar - original)).mean()
