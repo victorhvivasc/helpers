@@ -6,7 +6,7 @@ def validar_datos(comparar, original):
     if type(comparar) == type(original):
         if len(comparar) == len(original):
             if len(comparar) >= 2:
-                if type(comparar) == list:
+                if isinstance(comparar, list):
                     ok = True
                     original = np.array(original)
                     comparar = np.array(comparar)
@@ -20,3 +20,12 @@ def validar_datos(comparar, original):
             raises.Longitud(comparar, original)
     else:
         raises.Type(comparar, original)
+
+
+def numpy_or_list(x):
+    if isinstance(x, float) or isinstance(x, int):
+        x = [x]
+    if type(x) == list:
+        return np.array(x)
+    else:
+        return x
