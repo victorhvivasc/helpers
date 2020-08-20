@@ -1,4 +1,7 @@
 import mecanica_fisica
+import numpy as np
+import Graficas3D
+
 
 """Ejemplo
 
@@ -27,3 +30,8 @@ print("recorrido inicial = ", recorrido1)
 recorrido2 = mecanica_fisica.recorrido_cinematica(v1, desacelera, 6., euclidea=False)
 print("Recorrido final = ", recorrido2)
 print("Recorrido total = ", recorrido1 + recorrido2)
+
+escala = np.linspace(0, np.pi/2, 100)
+senos = np.array([np.sin(x*np.pi) for x in escala])
+cosenos = np.array([[np.cos(x*np.pi)] for x in escala])
+Graficas3D.plot_scatter(escala, senos, cosenos, nombre='Seno')
