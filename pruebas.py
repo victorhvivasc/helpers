@@ -8,7 +8,7 @@ hasta que la bicicleta se detiene.
 
 Calcular:
 
-a) La aceleración hasta que comienza a frenar. 0.2 m/s
+a) La aceleración hasta que comienza a frenar. 
 b) La aceleración con la que frena la bicicleta.
 c) El espacio total recorrido.
 """
