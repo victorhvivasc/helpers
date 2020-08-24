@@ -2,7 +2,7 @@ import numpy as np
 from herramientas import validate
 
 
-def distancia_euclidea(x, y):
+def distancia_euclidea(x, y=0):
     """Sean x e y dos puntos en el espacio, se calcula la distancia entre los dos puntos
     ejemplo:
     x = np.array([0, 1])

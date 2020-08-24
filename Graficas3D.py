@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
+from matplotlib import cm
 
 # DATOS GENERADOS LOCALMENTE
 X = np.linspace(-100, 100, 100)
@@ -84,3 +85,14 @@ def plot_bar(x, y, z=np.array([i for i in range(100)]), nombre='Sigmoide 3d'):
     plt.xlabel('Eje X')
     plt.ylabel('Eje Y')
     plt.show()
+
+
+def plot_contour(x, y, z=np.array([i for i in range(100)])):
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
+    cset = ax.contourf(x, y, z, cmap=cm.coolwarm)
+    ax.clabel(cset, fontsize=9, inline=True)
+    plt.show()
+
+
+plot_contour(a, b, c)
