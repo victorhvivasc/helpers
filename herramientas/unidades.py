@@ -76,7 +76,8 @@ class Unidades:
 error_diensiones_1 = "Para garantizar la dimensionalidad de los datos no se permite sumar datos adimensionales"
 mensaje_deleter = 'El dtype no puede ser eliminado para mejorar la coherencia de la información'
 
-u1 = Unidades(25, dtype='k6')
-u2 = Unidades(5, dtype='k5')
-a = u2 * u1
-print(a)
+if __name__ == '__main__':
+    u1 = Unidades(25, dtype='k6')
+    u2 = Unidades(5, dtype='k5')
+    a = u2 * u1
+    print(a)

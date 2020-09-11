@@ -1,39 +1,67 @@
-# from herramientas import validate
+# -*- coding: utf-8 -*-
 from herramientas.unidades import Unidades
 from herramientas.valores import *
 
 
-def convert_to_mks(f):
-    """Decorador de metodo para la clase Unidades, aplicado directamente sobre una operación hace la conversion
-    en tiempo real """
-    def envoltura(*args, **kwargs):
-        correcto = True
-        for i in args:
-            if isinstance(i, Unidades):
-                i.valor = i.valor * equivalencia[i.dtype][0]
-                i.dtype = equivalencia[i.dtype][1]
-            else:
-                correcto = False
-        if not correcto:
-            raise TypeError('Metodo solo util para la clase Unidades')
-        return f(*args, *kwargs)
-    return envoltura
-
-
-def mks_ingles(valor: (float, int), u_e: str) -> Unidades:
-    """Recibe un numero flotante o entero, una unidad de entrada, se hace la conversion a la unidad correspondiente
-    de salida, de sistema internacional a ingles y viceversa, NO SIRVE PARA CAMBIO DE ESCALAS EJEMPLO DE m A cm
-    a = longitud(25, 'm')
-    :return 82.021 pie
+def convert_live(u_s: str):
+    """Decorador que convierte las unidades de una funcion en tiempo de ejecución, siempre que la relación de
+    conversión haya sido incluida en el archivo valores.py.
+    Cuidado, la conversion se hace sobre todos los argumentos que sean instancia Unidades de la función, no asi sobre
+    constantes incluidas en el cuerpo de la misma
+    Ejemplo:
+    @convert_live(u_s='pies')
+    def sumar(a, b):
+        return a+b
+    uno = Unidades(5, dtype='m')
+    dos = Unidades(5, dtype='m')
+    sumar(uno, dos)
+    :return 32.8084 pies
     """
-    valor = valor * equivalencia[u_e][0]
-    return Unidades(valor, dtype=equivalencia[u_e][1])
+    def convert_to_mks(f):
+        def envoltura(*args):
+            aux = []
+            for i in args:
+                if isinstance(i, Unidades):
+                    aux.append(escalar(i, u_s=u_s))
+            return f(*aux)
+        return envoltura
+    return convert_to_mks
 
 
-def escalar(valor: (float, int), u_e: str, u_s: str) -> Unidades:
-    """Para cambiar escala entre dimensiones de la misma unidad"""
-    valor = valor*escalas[u_e+'-'+u_s]
-    return Unidades(valor, dtype=u_s)
+def escalar(valor, u_s: str, u_e: str = None) -> Unidades:
+    """Funcion para redimensionar segun las escalas preestablecidas en el documento valores.py
+    valor: int, float, class Unidades, indiferentemente del valor de entrada la salida sera del type class Unidades
+    u_s: Unidad a la cual se desea hacer la conversión de escala.
+    u_e: default None, cuando el parametro 'valor' suministrado es del type Unidades se identifica automaticamente el
+        tipo de datos de entrada, en caso contrario debe suministrarse
+
+    Ejemplo 1:
+    numero = 25
+    escala = escalar(numero, u_e='m', u_s='km')
+    :return 0.025 km
+
+    Ejemplo 2:
+    numero = Unidades(25, dtype='m')
+    escala = escalar(numero, u_s='km')
+    :return 0.025 km
+    """
+    if isinstance(valor, Unidades):
+        dtypes = str(valor.dtype)+'-'+u_s
+        valor.dtype = u_s
+        return valor*escalas[dtypes]
+    else:
+        valor = valor*escalas[u_e+'-'+u_s]
+        return Unidades(valor, dtype=u_s)
 
 
-print(escalar(25, 'm2', 'pies2'))
+if __name__ == '__main__':
+    numero = Unidades(25, dtype='m')
+    escala = escalar(numero, u_s='km')
+    print(escala, type(escala))
+
+    @convert_live(u_s='km')
+    def sumar(a: Unidades, b: Unidades):
+        return a+b
+    uno = Unidades(5, dtype='m')
+    dos = Unidades(5, dtype='m')
+    print(sumar(uno, dos, 3))

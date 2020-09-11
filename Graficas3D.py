@@ -1,5 +1,6 @@
-import numpy as np
-import matplotlib.pyplot as plt
+# -*- coding: utf-8 -*-
+import numpy as np  # version 1.19.0
+import matplotlib.pyplot as plt  # version 3.2.2
 from mpl_toolkits.mplot3d import axes3d
 from matplotlib import cm
 

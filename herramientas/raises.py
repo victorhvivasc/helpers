@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class NoOne:
 
     def __init__(self, ):
