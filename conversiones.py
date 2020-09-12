@@ -58,10 +58,12 @@ if __name__ == '__main__':
     numero = Unidades(25, dtype='m')
     escala = escalar(numero, u_s='km')
     print(escala, type(escala))
+    print(escalar(1, u_e='pies', u_s='m'))
 
     @convert_live(u_s='km')
     def sumar(a: Unidades, b: Unidades):
         return a+b
     uno = Unidades(5, dtype='m')
     dos = Unidades(5, dtype='m')
-    print(sumar(uno, dos, 3))
+    F = sumar(uno, dos, 3)
+    print(F.dtype)
